@@ -23,8 +23,8 @@ def parse_command_line() -> argparse.Namespace:
 def main() -> None:
     """Launch application."""
     args = parse_command_line()
-    bingo_server.app.buzzwords(args.buzzwords)
-    bingo_server.app.run()
+    bingo_server.app.set_buzzwords(args.buzzwords)
+    bingo_server.app.run(debug=True)
 
 
 if __name__ == '__main__':
