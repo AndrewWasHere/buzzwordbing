@@ -15,4 +15,8 @@ class BingoServer(Flask):
 
 
 app = BingoServer(__name__)
-
+"""
+@app.route("/")
+def root():
+    return the_html / render_template("/templates/root.html")
+"""
