@@ -4,7 +4,7 @@
 # This software is released under the BSD 3-clause license. See LICENSE.txt or
 # https://opensource.org/licenses/BSD-3-Clause for more information.
 #
-from flask import Flask, request, render_template, abort
+from flask import Flask, request, render_template, abort, redirect
 
 
 class BingoServer(Flask):
@@ -13,7 +13,7 @@ class BingoServer(Flask):
         """Constructor."""
         super().__init__(import_name, **kwargs)
 
-        self.games = {"game a": "nil", "game b": "nil"}  # Active games.
+        self.games = {}  # Active games.
         self.buzzwords = []  # list of buzzwords / phrases to use in games.
 
     def set_buzzwords(self, path: str) -> None:
@@ -50,8 +50,12 @@ def favicon():
 
 def active_game(game_id):
     """Serve an active game page."""
-    print(f"active game: {game_id} -> {app.games[game_id]}")
-    return render_template("player_list.html", game_id=game_id)  # sent to client
+    try:
+        print(f"active game: {game_id} -> {app.games[game_id]}")
+        return render_template("player_list.html", game_id=game_id)  # sent to client
+    except KeyError:
+        # Somebody thought there was a game named this, but there wasn't.
+        return redirect("/")
 
 
 def new_game(game_id):
