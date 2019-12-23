@@ -1,0 +1,4 @@
+Flask >= 1.1.1
+Sphinx >= 2.2.0
+sphinxcontrib-httpdomain >= 1.7.0
+sphinxcontrib-plantuml >= 0.17.1
