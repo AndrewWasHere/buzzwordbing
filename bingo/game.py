@@ -11,7 +11,16 @@ class Game:
     """Game instance."""
     def __init__(self):
         """Constructor."""
+        self.players = set()
         self.play_by_play = []
+
+    def add_player(self, player) -> None:
+        """Add player to game."""
+        self.players.add(player)
+
+    def get_players(self) -> set:
+        """Get players in game."""
+        return self.players
 
     def add_play(self, play: str) -> None:
         """Add play to play-by-play."""

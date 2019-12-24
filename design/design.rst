@@ -12,13 +12,6 @@ Players report all moves and bingos to the host.
    :caption: Class Diagram
 
     @startuml
-    class Host {
-        create_game(name: str, words: str) : \n\tcreate a new game. returns game id.
-        join_game(game: str) : \n\tclient requests to join a game. returns a bingo board.
-        end_game(game: str) : \n\tterminate named game.
-        list_games() : \n\treturn all active games.
-        play(game: str, move: str) : \n\tadds `move` to `game`.
-    }
     class Game {
         plays[]: str
 
@@ -31,7 +24,6 @@ Players report all moves and bingos to the host.
         generate()
     }
 
-    Host "1" *-- "many" Game : games
     Game *-- Board : board
     @enduml
 
@@ -41,27 +33,27 @@ A typical game session would look something like this:
    :caption: Interaction Diagram
 
     @startuml
-    Player -> Host : create_game()
-    Host -> Game ** : create
+    Player -> Server : PUT /<game_id>
+    Server -> Game ** : create
     Game -> Board ** : create
-    Host -> Player : game name
-    Player -> Host : join_game(game)
-    Host -> Game : join()
+    Server -> Player : <game_id>
+    Player -> Server : GET /<game_id>
+    Server -> Game : join()
     Game -> Board : generate()
     Board -> Game : bingo board
-    Game -> Host : bingo board
-    Host -> Player : bingo board
+    Game -> Server : bingo board
+    Server -> Player : HTML: game board
 
     loop
-    Player -> Host : play(game, move)
-    Host -> Game :  add_play(move)
-    Player -> Host : get_plays(idx)
-    Host -> Game : get_plays(idx)
-    Game -> Host : new idx, moves
-    Host -> Player : new idx, moves
+    Player -> Server : POST /<game_id>/<player_id>
+    Server -> Game :  add_play(move)
+    Player -> Server : GET /<game_id>/play-by-play?idx=<N>
+    Server -> Game : get_plays(idx)
+    Game -> Server : new idx, moves
+    Server -> Player : JSON: new idx, moves
     end
 
-    Player -> Host : end_game(game)
-    Host -> Game !! : destroy
+    Player -> Server : DEL /<game_id>
+    Server -> Game !! : destroy
     Game -> Board !! : destroy
     @enduml

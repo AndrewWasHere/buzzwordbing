@@ -14,6 +14,18 @@ def test_game_construction():
     assert game.play_by_play == []
 
 
+def test_add_player():
+    """Test adding player to game."""
+    game = Game()
+    players = ['Alice', 'Bob', 'Charlie', 'Dianne', 'Erszebet']
+
+    for idx, p in enumerate(players, 1):
+        game.add_player(p)
+        game_players = game.get_players()
+        assert p in game_players
+        assert len(game_players) == idx
+
+
 def test_game_add_play():
     """"""
     game = Game()

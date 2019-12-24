@@ -24,10 +24,17 @@ Root
     @enduml
 
 Game titles are clickable, and take you to the :ref:`Game`. ``New Game`` will
-create a new game under a generated UUID, and redirect to the new :ref:`Game`.
+check the game title to make sure it is not in use, create the new game via a
+PUT to ``/game_id``, and redirect to the new :ref:`Game`.
+
+``game_id`` is the game title, with spaces removed.
 
 Game
 ----
+
+.. http:put:: /(str:game_id)
+
+    Create a new game with ``game_id``.
 
 .. http:get:: /(str:game_id)
 
@@ -38,7 +45,7 @@ Game
     @startuml
     salt
     {
-      Buzzword Bingo - abababababab-bababa-abababababab
+      Buzzword Bingo
       Current Players:
       * Alice
       * Bob
@@ -48,16 +55,16 @@ Game
     }
     @enduml
 
-Player names are clickable, and take you to the :ref:`Player`. ``Join`` verifies
-the ``Player Name`` is unique, adds the player to the game, and redirects to
-the :ref:`Player` endpoint.
+``Join`` verifies the ``Player Name`` is unique, adds the player to the game,
+and redirects to the :ref:`Player` endpoint.
 
 Player
 ------
 
 .. http:get:: /(str:game_id)/(str:player)
 
-    The bingo card for player.
+    Creates a new bingo card for player. New GETs of this page will create a
+    new bingo card.
 
 .. uml::
 
