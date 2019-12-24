@@ -34,7 +34,6 @@ def game_management():
 @app.route('/<game_id>/', methods=['GET', 'PUT', 'DELETE'])
 def game(game_id):
     """Game page."""
-    print(f'game(): hit {game_id}')
     if request.method == 'GET':
         return active_game(game_id)
     elif request.method == 'PUT':
@@ -51,7 +50,7 @@ def favicon():
 def active_game(game_id):
     """Serve an active game page."""
     try:
-        print(f"active game: {game_id} -> {app.games[game_id]}")
+        print(f"Game load: {game_id} -> {app.games[game_id]}")
         return render_template("player_list.html", game_id=game_id)  # sent to client
     except KeyError:
         # Somebody thought there was a game named this, but there wasn't.
