@@ -16,6 +16,7 @@ class Game:
 
     def add_player(self, player) -> None:
         """Add player to game."""
+        print(f'Game: new player {player}')
         self.players.add(player)
 
     def get_players(self) -> set:
@@ -24,6 +25,7 @@ class Game:
 
     def add_play(self, play: str) -> None:
         """Add play to play-by-play."""
+        print(f'Game: new play {play}')
         self.play_by_play.append(play)
 
     def get_plays(self, idx: int) -> typing.Tuple[int, typing.List[str]]:

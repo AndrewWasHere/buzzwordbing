@@ -11,7 +11,7 @@
     <tr><th colspan="2">Active games</th></tr>
     <tr><td>Game name</td><td>Delete</td></tr>
     {% for game in games %}
-    <tr><td><button onclick="document.location='/{{ game }}'">{{ game }}</button></td><td><button onclick="delete_game('{{ game }}');">Delete</button></td></tr>
+    <tr><td><button onclick='document.location="/"+{{ game|tojson }}+"/"'>{{ game }}</button></td><td><button onclick='delete_game({{ game|tojson }});'>Delete</button></td></tr>
     {% endfor %}
 </table>
 <br>

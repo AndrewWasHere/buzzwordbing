@@ -5,6 +5,7 @@
 # https://opensource.org/licenses/BSD-3-Clause for more information.
 #
 from flask import Flask, request, render_template, abort, redirect
+from bingo.game import Game
 
 
 class BingoServer(Flask):
@@ -51,7 +52,7 @@ def active_game(game_id):
     """Serve an active game page."""
     try:
         print(f"Game load: {game_id} -> {app.games[game_id]}")
-        return render_template("player_list.html", game_id=game_id)  # sent to client
+        return render_template("player_list.html", game_id=game_id, game=app.games[game_id])  # sent to client
     except KeyError:
         # Somebody thought there was a game named this, but there wasn't.
         return redirect("/")
@@ -60,7 +61,7 @@ def active_game(game_id):
 def new_game(game_id):
     """Create a new game page."""
     print(f"new game: {game_id}")
-    app.games[game_id] = "NotImplemented"
+    app.games[game_id] = Game()
     return f'new game: {game_id}'
 
 
@@ -71,18 +72,23 @@ def delete_game(game_id):
     return f'delete game: {game_id}'
 
 
-@app.route('/<game_id>/<player_id>/', methods=['GET, POST'])
+@app.route('/<game_id>/<player_id>/', methods=['GET', 'POST'])
 def player(game_id, player_id):
     """Player page."""
-    if request.method == 'GET':
-        return player_join(game_id, player_id)
-    elif request.method == 'POST':
-        return player_move(game_id, player_id)
+    try:
+        if request.method == 'GET':
+            return player_join(game_id, player_id)
+        elif request.method == 'POST':
+            return player_move(game_id, player_id)
+    except KeyError:
+        #  The game was suddenly deleted for no apparent reason.
+        return redirect("/")
 
 
 def player_join(game_id, player_id):
     """Player joins game."""
-    return f'{player_id} joined {game_id}'
+    app.games[game_id].add_player(player_id)
+    return f'check the home page'
 
 
 def player_move(game_id, player_id):
