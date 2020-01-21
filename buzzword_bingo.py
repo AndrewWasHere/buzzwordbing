@@ -24,8 +24,7 @@ def main() -> None:
     """Launch application."""
     args = parse_command_line()
     bingo_server.app.set_buzzwords(args.buzzwords)
-    bingo_server.app.run(debug=True, host="0.0.0.0")
-#     Change: made website visible to network
+    bingo_server.app.run(debug=False, host="0.0.0.0")
 
 
 if __name__ == '__main__':
