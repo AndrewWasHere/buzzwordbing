@@ -1,4 +1,5 @@
 var req_seq = 1;
+var bingoed = false;
 
 var PlayByPlay = function() {
     this.next_idx = 0;
@@ -111,25 +112,25 @@ var didWeWin = function() {
 
 
 var toggleType = function(event) {
-    var element = event.target;
-    //console.log("click " + event.target + element.className)
-    if (element.className === "word selected") {
-        //console.log("removing SELECTED")
-        sendMove("unmarked \"" + element.innerText + "\".");
-        element.className = "word";
-    } else if (element.className === "word") {
-        //console.log("making SELECTED")
-        sendMove("marked \"" + element.innerText + "\"!");
-        element.className = "word selected";
-    }
-    if (didWeWin()) {
-        document.getElementById("newboard").className = "selectedstyledbutton";
-        document.getElementById("newboard").innerText = "Play Again";
-        document.getElementById("gameboard").className = "hidden";
-        document.getElementById("play_by_play_box").className = "";
-        document.getElementById("play_by_play").className = "hidden";
-        document.getElementById("bingo").className = "";
-        sendMove("got a BINGO!");
+    if (!bingoed) {
+        var element = event.target;
+        //console.log("click " + event.target + element.className)
+        if (element.className === "word selected") {
+            //console.log("removing SELECTED")
+            sendMove("unmarked \"" + element.innerText + "\".");
+            element.className = "word";
+        } else if (element.className === "word") {
+            //console.log("making SELECTED")
+            sendMove("marked \"" + element.innerText + "\"!");
+            element.className = "word selected";
+        }
+        if (didWeWin()) {
+            document.getElementById("newboard").className = "selectedstyledbutton";
+            document.getElementById("newboard").innerText = "Play Again";
+            document.getElementById("bingo").className = "";
+            bingoed = true;
+            sendMove("got a BINGO!");
+        }
     }
     event.preventDefault();
 }
