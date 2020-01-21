@@ -1,6 +1,10 @@
 var add_player = function(game_name) {
     var name = document.getElementById("newplayername").value;
-    document.location = "/" + game_name + "/" + name + "/";
+    if (name !== "play-by-play") {
+        document.location = "/" + game_name + "/" + name + "/";
+    } else {
+        alert("That's not a valid name.")
+    }
 };
 
 

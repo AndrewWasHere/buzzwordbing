@@ -1,0 +1,75 @@
+#play_by_play_box {
+    margin: 10px;
+}
+
+.floatsleft {
+    float: left;
+}
+
+#play_by_play {
+    border: 1px solid black;
+}
+
+#gameboard {
+    float: left;
+    border: 1px dotted black;
+}
+
+th {
+    border: 1px solid black;
+    width: 50px;
+}
+td {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    text-align: center;
+}
+.hidden {
+    display: none;
+}
+#connection_problems {
+    background-color: #ff2222;
+    color: white;
+    text-align: center;
+    border: 5px dashed black;
+    margin: 10px;
+}
+
+.selected {
+    background-color: #00ff00;
+}
+
+.styledbutton {
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+    background-color: #333333;
+}
+
+.selectedstyledbutton {
+    border: 10px solid black;
+    line-height: 2.5;
+    padding: 0 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    text-align: center;
+    color: #000;
+    border-radius: 10px;
+    background-color: orange;
+}
+
+#bingo {
+    float: left;
+    font-family: monospace;
+    color: yellow;
+    background-color: black;
+    font-size: 100px;
+}

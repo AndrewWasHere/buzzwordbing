@@ -1,0 +1,3 @@
+{# It's a text file because otherwise the JS would treat it as HTML :) #}{{ new_idx }}
+{% for line in plays %}{{ line }}
+{% endfor %}

@@ -15,7 +15,10 @@ var new_game = function() {
     var request = new XMLHttpRequest();
     request.addEventListener("load", create_finished);
     request.open("PUT", "/" + document.getElementById("newgamename").value + "/");
-    request.send();
+    var free_space = document.getElementById("freespace").checked;
+    var fake_form = new FormData();
+    fake_form.append("free", free_space);
+    request.send(fake_form);
 }
 
 

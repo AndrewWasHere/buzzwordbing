@@ -38,9 +38,29 @@ def game(game_id):
     if request.method == 'GET':
         return active_game(game_id)
     elif request.method == 'PUT':
+        print(f"PUT, got {request.form['free']}")
         return new_game(game_id)
     elif request.method == 'DELETE':
         return delete_game(game_id)
+
+
+@app.route('/<game_id>/play-by-play/', methods=['POST'])
+def play_by_play(game_id):
+    """Play-by-play."""
+    selected = app.games[game_id]
+
+    def unpack_request():
+        data = request.form
+        try:
+            print(f"index: {data['idx']}")
+            return int(data["idx"])
+        except KeyError:
+            print("No idx supplied")
+            # Didn't supply an index.
+            return 0
+
+    new_idx, plays = selected.get_plays(unpack_request())
+    return render_template("play_by_play.txt", new_idx=new_idx, plays=plays)
 
 
 @app.route("/favicon.ico/")
@@ -52,7 +72,10 @@ def active_game(game_id):
     """Serve an active game page."""
     try:
         print(f"Game load: {game_id} -> {app.games[game_id]}")
-        return render_template("player_list.html", game_id=game_id, game=app.games[game_id])  # sent to client
+        return render_template("player_list.html",
+                               game_id=game_id,
+                               game=app.games[game_id],
+                               free_spaces=app.games[game_id].free_space)  # sent to client
     except KeyError:
         # Somebody thought there was a game named this, but there wasn't.
         return redirect("/")
@@ -61,7 +84,10 @@ def active_game(game_id):
 def new_game(game_id):
     """Create a new game page."""
     print(f"new game: {game_id}")
-    app.games[game_id] = Game()
+    free_spaces = False
+    if request.form['free'] == "true":
+        free_spaces = True
+    app.games[game_id] = Game(app.buzzwords, free_spaces)
     return f'new game: {game_id}'
 
 
@@ -79,7 +105,11 @@ def player(game_id, player_id):
         if request.method == 'GET':
             return player_join(game_id, player_id)
         elif request.method == 'POST':
-            return player_move(game_id, player_id)
+            print(player_id)
+            if player_id != "play-by-play":
+                return player_move(game_id, player_id)
+            else:
+                return play_by_play(game_id)
     except KeyError:
         #  The game was suddenly deleted for no apparent reason.
         return redirect("/")
@@ -88,10 +118,14 @@ def player(game_id, player_id):
 def player_join(game_id, player_id):
     """Player joins game."""
     app.games[game_id].add_player(player_id)
-    return f'check the home page'
+    board = app.games[game_id].make_board()
+    return render_template("gameboard.html", board=board, game_id=game_id, player_id=player_id)
 
 
 def player_move(game_id, player_id):
     """Player moves in game."""
-    return f'{player_id} moved in {game_id}'
+    move = request.form["move"]
+    full_text = f"{player_id} {move}"
+    app.games[game_id].add_play(full_text)
+    return f'{player_id} moved in {game_id}: {move}'
 

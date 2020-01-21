@@ -16,6 +16,7 @@ class Board:
         self.free_space = free_space
 
     def generate(self) -> typing.List:
+        print(f"Board: generate() with {len(self.buzzwords)} words\nFree space: {self.free_space}")
         """Generate board."""
         def get_row(idx: int):
             start = 5 * idx

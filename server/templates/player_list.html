@@ -7,8 +7,10 @@
 </head>
 <body onload="on_load();">
     <button onclick="document.location = '/';">Games list</button>
-    <button onclick='delete_game({{ game_id|tojson }});'>Delete this game</button><br>
-    <strong>Players</strong><br>
+    <button onclick='delete_game({{ game_id|tojson }});'>Delete this game</button>
+    <h1>Buzzword Bingo: {{ game_id }}</h1>
+    <strong>Free spaces: {{ free_spaces }}</strong><br>
+    <strong>Players:</strong><br>
     <ul>
         {% for player in game.players %}
         <li>{{ player }}</li>
