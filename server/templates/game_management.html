@@ -11,11 +11,12 @@
     <tr><th colspan="2">Active games</th></tr>
     <tr><td>Game name</td><td>Delete</td></tr>
     {% for game in games %}
-    <tr><td><button onclick="document.location='/{{ game }}'">{{ game }}</button></td><td><button onclick="delete_game('{{ game }}');">Delete</button></td></tr>
+    <tr><td><button onclick='document.location="/"+{{ game|tojson }}+"/"'>{{ game }}</button></td><td><button onclick='delete_game({{ game|tojson }});'>Delete</button></td></tr>
     {% endfor %}
 </table>
 <br>
-<label for="newgamename">Create new game:</label><input type="text" placeholder="Enter name..." id="newgamename">
+<label for="newgamename">Create new game:</label><input type="text" placeholder="Enter name..." id="newgamename"><br>
+<label for="freespace">Free spaces on game boards?</label><input type="checkbox" id="freespace"><br>
 <button onclick="new_game();" id="submit">Submit</button>
 </body>
 </html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BUZZWORD BINGO (Game)</title>
+    <link rel="stylesheet" href="/static/gameboard.css">
+    <!--
+    {# Because Jinja2 only processes this file, there are some JS variable assignments here: #}\
+    The below variables should have values:
+    -->
+    <script>
+        var game_id = {{ game_id|tojson }};
+        var player_id = {{ player_id|tojson }};
+    </script>
+    <script src="/static/gameboard.js"></script>
+</head>
+<body onload="on_load();" onunload="send_move('disconnected.');">
+<div id="connection_problems">
+    You might be having connection problems; we can't update the play-by-play.<br>
+</div>
+<span id="bingo" class="hidden">YOU GOT A BINGO!</span><span id="showthese" class="hidden"><br><br><br><br><br><br><br></span>
+<table id="gameboard" class="floatsleft">
+    <tr>
+        <th colspan="1">B</th>
+        <th colspan="1">I</th>
+        <th colspan="1">N</th>
+        <th colspan="1">G</th>
+        <th colspan="1">O</th>
+    </tr>
+    {% for row in board %}
+    <tr>
+        {% for item in row %}
+            <td class="word">{{ item }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<div id="play_by_play_box" class="floatsleft">
+    <div id="play_by_play">Loading...<br>(if this message stays here,<br>you may have connection problems)</div><br>
+    <button id="newboard" class="styledbutton" onclick="document.location.reload();">Create new board</button>
+</div>
+</body>
+</html>
