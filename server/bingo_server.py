@@ -71,7 +71,6 @@ def favicon():
 def active_game(game_id):
     """Serve an active game page."""
     try:
-        print(f"Game load: {game_id} -> {app.games[game_id]}")
         return render_template("player_list.html",
                                game_id=game_id,
                                game=app.games[game_id],
@@ -83,7 +82,6 @@ def active_game(game_id):
 
 def new_game(game_id):
     """Create a new game page."""
-    print(f"new game: {game_id}")
     free_spaces = False
     if request.form['free'] == "true":
         free_spaces = True
@@ -93,7 +91,6 @@ def new_game(game_id):
 
 def delete_game(game_id):
     """Delete an active game"""
-    print(f"delete game: {game_id}")
     del app.games[game_id]
     return f'delete game: {game_id}'
 
