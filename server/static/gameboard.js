@@ -128,6 +128,7 @@ var toggleType = function(event) {
             document.getElementById("newboard").className = "selectedstyledbutton";
             document.getElementById("newboard").innerText = "Play Again";
             document.getElementById("bingo").className = "";
+            document.getElementById("showthese").className = "";
             bingoed = true;
             sendMove("got a BINGO!");
         }
