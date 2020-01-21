@@ -38,7 +38,6 @@ def game(game_id):
     if request.method == 'GET':
         return active_game(game_id)
     elif request.method == 'PUT':
-        print(f"PUT, got {request.form['free']}")
         return new_game(game_id)
     elif request.method == 'DELETE':
         return delete_game(game_id)
@@ -52,10 +51,8 @@ def play_by_play(game_id):
     def unpack_request():
         data = request.form
         try:
-            print(f"index: {data['idx']}")
             return int(data["idx"])
         except KeyError:
-            print("No idx supplied")
             # Didn't supply an index.
             return 0
 
